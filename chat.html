@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="http://image.beilie.com/public/js/EF1.0/ef.min.js"></script>
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://image.beilie.com/public/js/EM1.0.2/sockjs.min.js"></script>
+    <script src="http://image.beilie.com/public/js/EM1.0.2/stomp.min.js"></script>
+    <script src="./Notification.js"></script>
+</head>
+
+<body>
+</body>
+<script>
+    var sock = new EF.Notification();
+    var parentData = {};
+    var messenger = new EF.Messenger('iframe1', 'framework');
+    messenger.addTarget(parent, 'parent');
+    let times = setInterval(() => {
+        if (parentData.userName && parentData.hunterName) {
+            var sock = new EF.Notification();
+            sock.connect(parentData.userName, parentData.hunterName, function(data) {
+                messenger.call("sendParent", {
+                    data
+                });
+            });
+            clearInterval(times)
+        }
+    })
+
+    function getParameter() {
+        news = window.hellobaby.news
+        sock.send(parentData.userName, parentData.hunterName, parentData.num, news, parentData.type);
+    }
+</script>
+
+</html>
